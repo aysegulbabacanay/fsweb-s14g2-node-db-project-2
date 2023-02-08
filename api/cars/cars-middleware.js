@@ -4,6 +4,9 @@ const vinValidator = require("vin-validator");
 
 const checkCarId = async (req, res, next) => {
   // HOKUS POKUS
+  try{
+
+
     const car = await Cars.getById(req.params.id);
 
     if (!car) {
@@ -15,21 +18,34 @@ const checkCarId = async (req, res, next) => {
       req.car = car;
       next();
     }
+  }catch(err){
+    next(err);
+  }
   
 };
 
 const checkCarPayload = (req, res, next) => {
   // HOKUS POKUS
   try {
-    
-    const gerekliAlan = ["vin", "make", "model","mileage"];
-    const olmayanAlan = gerekliAlan.filter((ind) => !req.body[ind]);
+  const {vin,make,model,mileage}= req.body;
+    if(!vin) {
+      next({ status:400, message:"vin is missing"});
+    } else if (!make) {
+        next({ status:400, message:"make is missing"});
+      } else  if(!model) {
+        next({ status:400, message:"model is missing"});
+      } else  if(!mileage) {
+        next({ status:400, message:"mileage is missing"});
+      }
+    // const requiredFields = ["vin", "make", "model", "mileage"];
+    // const missingField = requiredFields.find((field) => !req.body[field]);
 
-    if (olmayanAlan) {
-      res.status(400).json({
-        message: `${olmayanAlan} is missing`,
-      });
-    } 
+    // if (missingField) {
+    //   next({
+    //     status: 400,
+    //     message: `${missingField} is missing`,
+    //   });
+    // }
     else {
       next();
     }
@@ -60,7 +76,7 @@ const checkVinNumberUnique = async (req, res, next) => {
 
     if (number) {
       res.status(400).json({
-      message: `vin ${req.body.vin} already exists`
+      message: `vin ${vin} already exists`
      });
     } 
     else {

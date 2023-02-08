@@ -1,4 +1,6 @@
 // HOKUS POKUS
+const express = require("express");
+
 const router = require('express').Router();
 
 const { checkCarId, checkCarPayload, checkVinNumberValid, checkVinNumberUnique } = require('./cars-middleware');
@@ -35,8 +37,7 @@ router.post("/",checkCarPayload,checkVinNumberValid,checkVinNumberUnique,async(r
 
 router.use((err, req, res, next) => { 
     res.status(err.status || 500).json({
-      customMessage: "HATA",
-      message: err.message
+      message: err.message,
     });
   });
 

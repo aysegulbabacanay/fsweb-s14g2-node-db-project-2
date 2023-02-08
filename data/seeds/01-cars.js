@@ -1,26 +1,26 @@
 // ESNEK
 const defaultCars = [
     {
-      vin: '123',
-      make: 'Toyata',
-      model: 'Corolla',
-      mileage: 95000,
-      title: 'clean',
-      transmission: 'CVT',
+      vin: 'JH4KA3263KC011910',
+      make: 'Acura',
+      model: 'Legend',
+      mileage: 1989,
+      title: 'Az kullanılmış',
+      transmission: 'Manuel',
     },
     {
-      vin: '3162',
-      make: 'Audi',
-      model: 'A7',
-      mileage: 70000,
-      title: 'clean',
-      transmission: 'manual',
+      vin: '1B3BG26P3FX513068',
+      make: 'Dodge',
+      model: 'Diplomat',
+      mileage: 1985,
+      title: 'Az kullanılmış',
+      transmission: 'otomatik',
     }
   ]
 
 exports.seed = async function (knex) {
     // Deletes ALL existing entries
-    await knex("cars").truncate();
+    await knex("cars").truncate(); // delete ile arasındaki fark tüm tabloyu id de dahil siliyo. (reset gibi)
     await knex("cars").insert(defaultCars);
 };
 //npm install -g knex
